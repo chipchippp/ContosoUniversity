@@ -196,14 +196,19 @@ namespace ContosoUniversity.Controllers
         }
 
         // POST: Students/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             try
             {
-                Student studentToDelete = new Student() { ID = id };
-                _context.Entry(studentToDelete).State = EntityState.Deleted;
+                _context.Students.Remove(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
