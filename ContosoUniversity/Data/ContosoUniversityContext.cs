@@ -35,6 +35,8 @@ namespace ContosoUniversity.Data
 
             modelBuilder.Entity<CourseAssignment>()
                 .HasKey(c => new { c.CourseID, c.InstructorID });
+            modelBuilder.Entity<Department>()
+                .Property(p => p.RowVersion).IsConcurrencyToken();
         }
     }
 }
